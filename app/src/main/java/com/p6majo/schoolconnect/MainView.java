@@ -1,5 +1,6 @@
 package com.p6majo.schoolconnect;
 
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+
+import static android.app.PendingIntent.getActivity;
 
 public class MainView extends AppCompatActivity {
 
@@ -39,9 +42,14 @@ public class MainView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //hier wird der view aus der xml-resource geladen
         setContentView(R.layout.activity_main_view);
 
+        //wichtige Funktion, um views aus xml-resourcen mit Java-Objekten zu verbinden
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -54,11 +62,12 @@ public class MainView extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Hier koennte irgendwas passieren", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -82,6 +91,8 @@ public class MainView extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+           Snackbar.make(mViewPager, "Noch keine Settings", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
             return true;
         }
 
@@ -137,6 +148,11 @@ public class MainView extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
+            switch (position){
+                case 0:
+                    return FirstListViewFragment.newInstance(position+1);
+
+            }
             return PlaceholderFragment.newInstance(position + 1);
         }
 
@@ -150,11 +166,11 @@ public class MainView extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "Kurse";
                 case 1:
-                    return "SECTION 2";
+                    return "Plan";
                 case 2:
-                    return "SECTION 3";
+                    return "Sonstiges";
             }
             return null;
         }
